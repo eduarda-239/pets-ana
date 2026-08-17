@@ -6,6 +6,9 @@ class Pet:
         self._idade = idade
         self._observacoes = observacoes
 
+    def __str__(self):
+        return f"Nome: {self._nome} | Raça: {self._raca} | Espécie: {self._especie} | Idade: {self._idade} | Observações: {self._observacoes}"
+
 belinha = Pet("Belinha", "pinsher", "cachorro",12," ela morde")
 meg = belinha = Pet("Meg", "vira-lata", "cachorro",9," dócil ")
 print(meg._nome)
