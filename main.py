@@ -23,8 +23,17 @@ def cadastrar_pet():
     pet = Pet(nome, raca, especie, idade, observacoes)
     pets.append(pet)
 
-
 cadastrar_pet()
+
+while True:
+
+    continuar = input("Deseja cadastrar outro? (s/n): ").lower()
+
+    if continuar == "n":
+        break
+
+    cadastrar_pet()
 
 for pet in pets:
     print(pet)
+
