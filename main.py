@@ -9,7 +9,22 @@ class Pet:
     def __str__(self):
         return f"Nome: {self._nome} | Raça: {self._raca} | Espécie: {self._especie} | Idade: {self._idade} | Observações: {self._observacoes}"
 
-belinha = Pet("Belinha", "pinsher", "cachorro",12," ela morde")
-meg = belinha = Pet("Meg", "vira-lata", "cachorro",9," dócil ")
-print(meg._nome)
-        
+
+pets = []
+
+
+def cadastrar_pet():
+    nome = input("Nome do pet: ")
+    raca = input("Raça: ")
+    especie = input("Espécie: ")
+    idade = input("Idade: ")
+    observacoes = input("Observações: ")
+
+    pet = Pet(nome, raca, especie, idade, observacoes)
+    pets.append(pet)
+
+
+cadastrar_pet()
+
+for pet in pets:
+    print(pet)
