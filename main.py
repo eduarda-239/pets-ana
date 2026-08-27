@@ -23,25 +23,31 @@ def cadastrar_pet():
     pet = Pet(nome, raca, especie, idade, observacoes)
     pets.append(pet)
 
+cadastrar_pet()
+
+while True:
+
+    continuar = input("Deseja cadastrar outro? (s/n): ").lower()
+
+    if continuar == "n":
+        break
+
+    cadastrar_pet()
+
 def listar_pets():
     for pet in pets:
         print(pet)
 
-while True:
-    print("=== PATINHAS DA ANA ===")
-    print("1 - Cadastrar pet")
-    print("2 - Listar pets")
-    print("3 - Sair")
+listar_pets()
 
-    opcao = input("Escolha uma opção: ")
-    if opcao == "1":
-        cadastrar_pet()
+def buscar_pet():
+    nome = input("Digite o nome do pet: ")
 
-    elif opcao == "2":
-        listar_pets()
+    for pet in pets:
+        if nome == pet._nome:
+            return pet 
+    return "Pet não encontrado."
 
-    elif opcao == "3":
-        break
-    else:
-        print("Opção inválida!")
+resultado = buscar_pet()
+print(str(resultado))
 
