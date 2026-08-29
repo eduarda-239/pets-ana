@@ -47,13 +47,36 @@ def remover_pet():
 
     return "Pet não encontrado."
 
+def editar_pet():
+    nome = input("Digite o nome do pet que deseja editar: ")
+
+    for pet in pets:
+        if nome == pet._nome:
+            novo_nome = input("Digite um novo nome: ")
+            pet._nome = novo_nome
+
+            nova_especie = input("Digite uma nova espécie: ")
+            pet._especie = nova_especie
+
+            nova_raca = input("Digite uma nova raça: ")
+            pet._raca = nova_raca
+
+            nova_idade = input("Digite uma nova idade: ")
+            pet._idade = nova_idade
+
+            nova_observacoes = input("Digite suas novas observações: ")
+            pet._observacoes = nova_observacoes
+
+
+
 while True:
     print("=== PATINHAS DA ANA ===")
     print("1 - Cadastrar pet")
     print("2 - Listar pets")
     print("3 - Buscar pet")
     print("4 - Remover pet")
-    print("5 - Sair")
+    print("5 - Editar pet")
+    print("6 - Sair")
 
     opcao = input("Escolha uma opção: ")
 
@@ -66,4 +89,6 @@ while True:
     elif opcao == "4":
         remover_pet()
     elif opcao == "5":
+        editar_pet()
+    elif opcao == "6":
         break
