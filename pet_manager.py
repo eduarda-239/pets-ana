@@ -1,5 +1,7 @@
 from pet import Pet
 
+pets = []
+
 def cadastrar_pet():
     nome = input("Nome do pet: ")
     raca = input("Raça: ")
@@ -42,15 +44,16 @@ def editar_pet():
             novo_nome = input("Digite um novo nome: ")
             pet._nome = novo_nome
 
-            nova_especie = input("Digite uma nova espécie: ")
-            pet._especie = nova_especie
+            nova_especie = input("Digite uma nova raça: ")
+            pet._especie = nova_raca
 
-            nova_raca = input("Digite uma nova raça: ")
-            pet._raca = nova_raca
+            nova_raca = input("Digite uma nova espécie: ")
+            pet._raca = nova_especie
 
             nova_idade = input("Digite uma nova idade: ")
             pet._idade = nova_idade
 
             nova_observacoes = input("Digite suas novas observações: ")
             pet._observacoes = nova_observacoes
-
+            return "Pet atualizado com sucesso!"
+    return "Pet não encontrado."
