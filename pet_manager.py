@@ -1,13 +1,25 @@
 from pet import Pet
+from database import conectar
 
 pets = []
 
 def cadastrar_pet():
+    conexao = conectar() # Abra uma conexão com o banco patinhas.db e guarde essa conexão na variável conexao.
+
     nome = input("Nome do pet: ")
     raca = input("Raça: ")
     especie = input("Espécie: ")
     idade = input("Idade: ")
     observacoes = input("Observações: ")
+
+    cursor = conexao.cursor()  # Comando que vai permitir conversar com o banco de dados.
+
+    cursor.execute("""
+    INSERT INTO pets (nome, raca, especie, idade, observacoes)
+    VALUES (?, ?, ?, ?, ?)
+""", (nome, raca, especie, idade, observacoes))
+
+    conexao.commit()
 
     pet = Pet(nome, raca, especie, idade, observacoes)
     pets.append(pet)
