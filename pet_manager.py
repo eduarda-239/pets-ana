@@ -25,8 +25,16 @@ def cadastrar_pet():
     pets.append(pet)
 
 def listar_pets():
-    for pet in pets:
-        print(pet)
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("SELECT * FROM pets")  # "Me dê todos os pets"
+    resultado = cursor.fetchall()  # pega todas as respostas e coloca dentro da variável resultado.
+
+    for pet in resultado:
+        id, nome, raca, especie, idade, observacoes = pet
+
+        print(f"ID: {id} | Nome: {nome} | Raça: {raca} | Espécie: {especie} | Idade: {idade} | Observações: {observacoes}")
 
 
 def buscar_pet():
