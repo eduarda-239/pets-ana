@@ -40,40 +40,65 @@ def listar_pets():
 def buscar_pet():
     nome = input("Digite o nome do pet: ")
 
-    for pet in pets:
-        if nome == pet._nome:
-            return pet 
-    return "Pet não encontrado."
+    conexao = conectar()
+    cursor = conexao.cursor()
 
+    cursor.execute("SELECT * FROM pets WHERE nome = ?", (nome,)) # "Me dê os pets cujo nome seja igual ao nome que o usuário digitou."
+    resultado = cursor.fetchone() # Pega uma linha retornada pelo banco e guarda em "resultado".
+    conexao.close()
+
+    if resultado:
+        id, nome, raca, especie, idade, observacoes = resultado
+
+        print(f"ID: {id} | Nome: {nome} | Raça: {raca} | Espécie: {especie} | Idade: {idade} | Observações: {observacoes}")
+    else:
+        return "Pet não encontrado."
 
 def remover_pet():
     nome = input("Digite o nome do pet que deseja remover: ")
 
-    for pet in pets:
-        if nome == pet._nome:
-            pets.remove(pet)
-            return "Pet removido com sucesso!"
+    conexao = conectar()
+    cursor = conexao.cursor()
 
+    cursor.execute("SELECT * FROM pets WHERE nome = ?", (nome,))
+    resultado = cursor.fetchone()
+
+    if resultado:
+        cursor.execute("DELETE FROM pets WHERE id = ?", (resultado[0],))
+        conexao.commit()
+        conexao.close()
+        return "Pet removido com sucesso!"
+    
+    conexao.close()
     return "Pet não encontrado."
+    
 
 def editar_pet():
     nome = input("Digite o nome do pet que deseja editar: ")
 
-    for pet in pets:
-        if nome == pet._nome:
-            novo_nome = input("Digite um novo nome: ")
-            pet._nome = novo_nome
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-            nova_especie = input("Digite uma nova raça: ")
-            pet._especie = nova_raca
+    cursor.execute("SELECT * FROM pets WHERE nome = ?", (nome,))
+    resultado = cursor.fetchone()
 
-            nova_raca = input("Digite uma nova espécie: ")
-            pet._raca = nova_especie
+    if resultado:
+        novo_nome = input("Digite um novo nome: ")
+        nova_raca = input("Digite uma nova raça: ")
+        nova_especie = input("Digite uma nova espécie: ")
+        nova_idade = input("Digite uma nova idade: ")
+        nova_observacoes = input("Digite suas novas observações: ")
 
-            nova_idade = input("Digite uma nova idade: ")
-            pet._idade = nova_idade
+        cursor.execute("""
+                UPDATE pets
+                SET nome = ?, raca = ?, especie = ?, idade = ?, observacoes = ?
+                WHERE id = ?
+            """, (novo_nome, nova_raca, nova_especie, nova_idade, nova_observacoes, resultado[0]))
 
-            nova_observacoes = input("Digite suas novas observações: ")
-            pet._observacoes = nova_observacoes
-            return "Pet atualizado com sucesso!"
+        conexao.commit()
+        conexao.close()
+        
+        return "Pet atualizado com sucesso!"
+    conexao.close()
     return "Pet não encontrado."
+
