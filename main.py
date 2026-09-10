@@ -18,12 +18,9 @@ while True:
         listar_pets()
     elif opcao == "3":
         resultado = buscar_pet()
-        print(resultado)
     elif opcao == "4":
         resultado = remover_pet()
-        print(resultado)
     elif opcao == "5":
         resultado = editar_pet()
-        print(resultado)
     elif opcao == "6":
         break

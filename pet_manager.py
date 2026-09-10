@@ -1,7 +1,5 @@
-from pet import Pet
 from database import conectar
 
-pets = []
 
 def cadastrar_pet():
     conexao = conectar() # Abra uma conexão com o banco patinhas.db e guarde essa conexão na variável conexao.
@@ -19,10 +17,9 @@ def cadastrar_pet():
     VALUES (?, ?, ?, ?, ?)
 """, (nome, raca, especie, idade, observacoes))
 
-    conexao.commit()
+    conexao.commit()  # quando alterou dados
+    conexao.close()  # terminou de usar
 
-    pet = Pet(nome, raca, especie, idade, observacoes)
-    pets.append(pet)
 
 def listar_pets():
     conexao = conectar()
@@ -30,6 +27,8 @@ def listar_pets():
 
     cursor.execute("SELECT * FROM pets")  # "Me dê todos os pets"
     resultado = cursor.fetchall()  # pega todas as respostas e coloca dentro da variável resultado.
+
+    conexao.close()
 
     for pet in resultado:
         id, nome, raca, especie, idade, observacoes = pet
