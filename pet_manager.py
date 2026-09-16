@@ -1,17 +1,39 @@
 from database import conectar
 
+def validar_texto(mensagem):
+    while True:
+        texto = input(mensagem)
+
+        if texto.strip():
+            return texto
+
+        print("O campo não pode ficar vazio.")
+
+def validar_idade():
+    while True:
+        try:
+            idade = int(input("Idade: "))
+
+            if idade < 0:
+                print("A idade não pode ser negativa.")
+                continue
+
+            return idade
+
+        except ValueError:
+            print("Digite uma idade válida.")
+
 
 def cadastrar_pet():
     conexao = conectar() # Abra uma conexão com o banco patinhas.db e guarde essa conexão na variável conexao.
 
-    nome = input("Nome do pet: ")
-    raca = input("Raça: ")
-    especie = input("Espécie: ")
-    idade = input("Idade: ")
-    observacoes = input("Observações: ")
-
+    nome = validar_texto("Nome do pet: ")
+    raca = validar_texto("Raça do pet: ")
+    especie = validar_texto("Espécie do pet: ")
+    idade = validar_idade()
+    observacoes = validar_texto("Observações: ")
+        
     cursor = conexao.cursor()  # Comando que vai permitir conversar com o banco de dados.
-
     cursor.execute("""
     INSERT INTO pets (nome, raca, especie, idade, observacoes)
     VALUES (?, ?, ?, ?, ?)

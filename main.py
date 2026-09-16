@@ -17,10 +17,10 @@ while True:
     elif opcao == "2":
         listar_pets()
     elif opcao == "3":
-        resultado = buscar_pet()
+        buscar_pet()
     elif opcao == "4":
-        resultado = remover_pet()
+        print(remover_pet())
     elif opcao == "5":
-        resultado = editar_pet()
+        print(editar_pet())
     elif opcao == "6":
         break
