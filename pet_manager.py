@@ -95,7 +95,7 @@ def remover_pet():
     
 
 def editar_pet():
-    nome = input("Digite o nome do pet que deseja editar: ")
+    nome = validar_texto("Digite o nome do pet que deseja editar: ")
 
     conexao = conectar()
     cursor = conexao.cursor()
@@ -104,11 +104,11 @@ def editar_pet():
     resultado = cursor.fetchone()
 
     if resultado:
-        novo_nome = input("Digite um novo nome: ")
-        nova_raca = input("Digite uma nova raça: ")
-        nova_especie = input("Digite uma nova espécie: ")
-        nova_idade = input("Digite uma nova idade: ")
-        nova_observacoes = input("Digite suas novas observações: ")
+        novo_nome = validar_texto("Digite um novo nome: ")
+        nova_raca = validar_texto("Raça do pet: ")
+        nova_especie = validar_texto("Espécie do pet: ")
+        nova_idade = validar_idade()
+        nova_observacoes = validar_texto("Digite suas novas observações: ")
 
         cursor.execute("""
                 UPDATE pets
