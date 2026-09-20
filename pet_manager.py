@@ -18,6 +18,9 @@ def validar_idade(mensagem):
                 print("A idade não pode ser negativa.")
                 continue
 
+            if idade > 16:
+                print("A idade máxima é 16 anos.")
+                continue
             return idade
 
         except ValueError:
