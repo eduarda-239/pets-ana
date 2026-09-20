@@ -47,11 +47,25 @@ def validar_raca():
 
         print("Digite uma raça válida.")
 
+def validar_nome():
+    while True:
+        nome = input("Nome do pet: ")
+
+        if nome.strip() and any(letra.isalpha() for letra in nome):
+            # strip() verifica se o nome não está vazio ou composto apenas por espaços.
+            # any() verifica se existe pelo menos uma letra dentro do nome.
+            # isalpha() verifica se cada caractere analisado é uma letra.
+            # O "and" exige que as duas condições sejam verdadeiras.
+            
+            return nome
+
+        print("Digite um nome válido.")
+
 
 def cadastrar_pet():
     conexao = conectar() # Abra uma conexão com o banco patinhas.db e guarde essa conexão na variável conexao.
 
-    nome = validar_texto("Nome do pet: ")
+    nome = validar_nome()
     raca = validar_raca()
     especie = validar_especie()
     idade = validar_idade("Idade do pet: ")
@@ -128,7 +142,7 @@ def editar_pet():
     resultado = cursor.fetchone()
 
     if resultado:
-        novo_nome = validar_texto("Digite um novo nome: ")
+        novo_nome = validar_nome()
         nova_raca = validar_raca()
         nova_especie = validar_especie()
         nova_idade = validar_idade("Nova idade: ")
