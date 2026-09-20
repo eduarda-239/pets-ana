@@ -4,7 +4,7 @@ def validar_texto(mensagem):
     while True:
         texto = input(mensagem)
 
-        if texto.strip():
+        if texto.strip(): # strip tira os espaços incorretos.
             return texto
 
         print("O campo não pode ficar vazio.")
@@ -26,13 +26,21 @@ def validar_idade(mensagem):
         except ValueError:
             print("Digite uma idade válida.")
 
+def validar_especie():
+    while True:
+        especie = input("Espécie do pet: ")
+
+        if especie.lower() == "cachorro":
+            return especie.strip().lower()
+        print("A espécie deve ser cachorro.")
+
 
 def cadastrar_pet():
     conexao = conectar() # Abra uma conexão com o banco patinhas.db e guarde essa conexão na variável conexao.
 
     nome = validar_texto("Nome do pet: ")
     raca = validar_texto("Raça do pet: ")
-    especie = validar_texto("Espécie do pet: ")
+    especie = validar_especie()
     idade = validar_idade("Idade do pet: ")
     observacoes = validar_texto("Observações: ")
         
