@@ -117,7 +117,7 @@ def editar_pet():
     if resultado:
         novo_nome = validar_texto("Digite um novo nome: ")
         nova_raca = validar_texto("Digite uma nova raça: ")
-        nova_especie = validar_texto("Digite uma nova espécie: ")
+        nova_especie = validar_especie()
         nova_idade = validar_idade("Nova idade: ")
         nova_observacoes = validar_texto("Digite suas novas observações: ")
 
