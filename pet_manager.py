@@ -9,10 +9,10 @@ def validar_texto(mensagem):
 
         print("O campo não pode ficar vazio.")
 
-def validar_idade():
+def validar_idade(mensagem):
     while True:
         try:
-            idade = int(input("Idade: "))
+            idade = int(input(mensagem))
 
             if idade < 0:
                 print("A idade não pode ser negativa.")
@@ -30,7 +30,7 @@ def cadastrar_pet():
     nome = validar_texto("Nome do pet: ")
     raca = validar_texto("Raça do pet: ")
     especie = validar_texto("Espécie do pet: ")
-    idade = validar_idade()
+    idade = validar_idade("Idade do pet: ")
     observacoes = validar_texto("Observações: ")
         
     cursor = conexao.cursor()  # Comando que vai permitir conversar com o banco de dados.
@@ -59,7 +59,7 @@ def listar_pets():
 
 
 def buscar_pet():
-    nome = input("Digite o nome do pet: ")
+    nome = validar_texto("Digite o nome do pet: ")
 
     conexao = conectar()
     cursor = conexao.cursor()
@@ -76,7 +76,7 @@ def buscar_pet():
         return "Pet não encontrado."
 
 def remover_pet():
-    nome = input("Digite o nome do pet que deseja remover: ")
+    nome = validar_texto("Digite o nome do pet: ")
 
     conexao = conectar()
     cursor = conexao.cursor()
@@ -105,9 +105,9 @@ def editar_pet():
 
     if resultado:
         novo_nome = validar_texto("Digite um novo nome: ")
-        nova_raca = validar_texto("Raça do pet: ")
-        nova_especie = validar_texto("Espécie do pet: ")
-        nova_idade = validar_idade()
+        nova_raca = validar_texto("Digite uma nova raça: ")
+        nova_especie = validar_texto("Digite uma nova espécie: ")
+        nova_idade = validar_idade("Nova idade: ")
         nova_observacoes = validar_texto("Digite suas novas observações: ")
 
         cursor.execute("""
