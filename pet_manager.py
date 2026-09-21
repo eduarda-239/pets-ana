@@ -57,7 +57,7 @@ def validar_nome():
             # isalpha() verifica se cada caractere analisado é uma letra.
             # O "and" exige que as duas condições sejam verdadeiras.
             
-            return nome
+            return nome.strip().lower()
 
         print("Digite um nome válido.")
 
@@ -97,19 +97,19 @@ def listar_pets():
 
 
 def buscar_pet():
-    nome = validar_texto("Digite o nome do pet: ")
+    nome = validar_nome()
 
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute("SELECT * FROM pets WHERE nome = ?", (nome,)) # "Me dê os pets cujo nome seja igual ao nome que o usuário digitou."
+    cursor.execute("SELECT * FROM pets WHERE LOWER(nome) = ?", (nome,)) # "Me dê os pets cujo nome seja igual ao nome que o usuário digitou."
     resultado = cursor.fetchone() # Pega uma linha retornada pelo banco e guarda em "resultado".
     conexao.close()
 
     if resultado:
         id, nome, raca, especie, idade, observacoes = resultado
 
-        print(f"ID: {id} | Nome: {nome} | Raça: {raca} | Espécie: {especie} | Idade: {idade} | Observações: {observacoes}")
+        return(f"ID: {id} | Nome: {nome} | Raça: {raca} | Espécie: {especie} | Idade: {idade} | Observações: {observacoes}")  # print = mostra | return = devolve
     else:
         return "Pet não encontrado."
 
