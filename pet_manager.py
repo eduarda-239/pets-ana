@@ -114,12 +114,12 @@ def buscar_pet():
         return "Pet não encontrado."
 
 def remover_pet():
-    nome = validar_texto("Digite o nome do pet: ")
+    nome = validar_nome()
 
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute("SELECT * FROM pets WHERE nome = ?", (nome,))
+    cursor.execute("SELECT * FROM pets WHERE LOWER(nome) = ?", (nome,))
     resultado = cursor.fetchone()
 
     if resultado:
@@ -133,12 +133,12 @@ def remover_pet():
     
 
 def editar_pet():
-    nome = validar_texto("Digite o nome do pet que deseja editar: ")
+    nome = validar_nome()
 
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute("SELECT * FROM pets WHERE nome = ?", (nome,))
+    cursor.execute("SELECT * FROM pets WHERE LOWER(nome) = ?", (nome,))
     resultado = cursor.fetchone()
 
     if resultado:
