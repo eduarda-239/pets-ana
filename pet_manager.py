@@ -120,16 +120,33 @@ def remover_pet():
     cursor = conexao.cursor()
 
     cursor.execute("SELECT * FROM pets WHERE LOWER(nome) = ?", (nome,))
-    resultado = cursor.fetchone()
+    resultados = cursor.fetchall()
 
-    if resultado:
-        cursor.execute("DELETE FROM pets WHERE id = ?", (resultado[0],))
+    if not resultados:
+        conexao.close()
+        return "Pet não encontrado."
+    if len(resultados) == 1:
+        pet = resultados[0]
+        cursor.execute("DELETE FROM pets WHERE id = ?", (pet[0],))
         conexao.commit()
         conexao.close()
-        return "Pet removido com sucesso!"
-    
-    conexao.close()
-    return "Pet não encontrado."
+        return "Pet removido com sucesso!" 
+    if len(resultados) > 1:
+        print("Encontramos mais de um pet com esse nome.")
+
+        for pet in resultados:
+            print(f"ID: {pet[0]} | Nome: {pet[1]} | Raça: {pet[2]} | Idade: {pet[4]}")
+        
+        id_pet = int(input("Digite o ID do pet que deseja remover: "))
+        if any(pet[0] == id_pet for pet in resultados):
+            # Verifica se o ID digitado pertence a algum dos pets encontrados.
+            cursor.execute("DELETE FROM pets WHERE id = ?", (id_pet,))
+            conexao.commit()
+            conexao.close()
+            return "Pet removido com sucesso!"
+        print("ID inválido.")
+        conexao.close()
+        return "Nenhum pet foi removido."
     
 
 def editar_pet():
