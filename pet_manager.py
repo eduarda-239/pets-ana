@@ -127,10 +127,15 @@ def remover_pet():
         return "Pet não encontrado."
     if len(resultados) == 1:
         pet = resultados[0]
-        cursor.execute("DELETE FROM pets WHERE id = ?", (pet[0],))
-        conexao.commit()
-        conexao.close()
-        return "Pet removido com sucesso!" 
+
+        if confirmar_remocao(pet[1]):
+            cursor.execute("DELETE FROM pets WHERE id = ?", (pet[0],))
+            conexao.commit()
+            conexao.close()
+            return "Pet removido com sucesso!" 
+        else:
+            conexao.close()
+            return "Nenhum pet foi removido."
     if len(resultados) > 1:
         print("Encontramos mais de um pet com esse nome.")
 
@@ -138,12 +143,19 @@ def remover_pet():
             print(f"ID: {pet[0]} | Nome: {pet[1]} | Raça: {pet[2]} | Idade: {pet[4]}")
         
         id_pet = int(input("Digite o ID do pet que deseja remover: "))
+
+        pet_escolhido = next((pet for pet in resultados if pet[0] == id_pet), None)
+
         if any(pet[0] == id_pet for pet in resultados):
             # Verifica se o ID digitado pertence a algum dos pets encontrados.
-            cursor.execute("DELETE FROM pets WHERE id = ?", (id_pet,))
-            conexao.commit()
-            conexao.close()
-            return "Pet removido com sucesso!"
+            if confirmar_remocao(pet_escolhido[1]):
+                cursor.execute("DELETE FROM pets WHERE id = ?", (id_pet,))
+                conexao.commit()
+                conexao.close()
+                return "Pet removido com sucesso!"
+            else:
+                conexao.close()
+                return "Nenhum pet foi removido."
         print("ID inválido.")
         conexao.close()
         return "Nenhum pet foi removido."
@@ -208,4 +220,16 @@ def editar_pet():
         print("ID inválido.")
         conexao.close()
         return "Nenhum pet foi atualizado."
+
+def confirmar_remocao(nome):
+    while True:
+        resposta = input(f'Tem certeza que deseja remover o pet "{nome}"? (s/n): ')
+
+        if resposta.lower() == "s":
+            return True
+
+        if resposta.lower() == "n":
+            return False
+
+        print("Digite apenas 's' para sim ou 'n' para não.")
 
