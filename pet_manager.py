@@ -156,9 +156,15 @@ def editar_pet():
     cursor = conexao.cursor()
 
     cursor.execute("SELECT * FROM pets WHERE LOWER(nome) = ?", (nome,))
-    resultado = cursor.fetchone()
+    resultados = cursor.fetchall()
 
-    if resultado:
+
+    if not resultados:
+        conexao.close()
+        return "Pet não encontrado."
+    
+    if len(resultados) == 1:
+        pet = resultados[0]
         novo_nome = validar_nome()
         nova_raca = validar_raca()
         nova_especie = validar_especie()
@@ -166,15 +172,40 @@ def editar_pet():
         nova_observacoes = validar_texto("Digite suas novas observações: ")
 
         cursor.execute("""
-                UPDATE pets
-                SET nome = ?, raca = ?, especie = ?, idade = ?, observacoes = ?
-                WHERE id = ?
-            """, (novo_nome, nova_raca, nova_especie, nova_idade, nova_observacoes, resultado[0]))
-
+            UPDATE pets
+            SET nome = ?, raca = ?, especie = ?, idade = ?, observacoes = ?
+            WHERE id = ?
+        """, (novo_nome, nova_raca, nova_especie, nova_idade, nova_observacoes, pet[0]))
+        
         conexao.commit()
         conexao.close()
         
         return "Pet atualizado com sucesso!"
-    conexao.close()
-    return "Pet não encontrado."
+
+    if len(resultados) > 1:
+        print("Encontramos mais de um pet com esse nome.")
+
+        for pet in resultados:
+            print(f"ID: {pet[0]} | Nome: {pet[1]} | Raça: {pet[2]} | Idade: {pet[4]}")
+
+        id_pet = int(input("Digite o ID do pet que deseja editar: "))
+
+        if any(pet[0] == id_pet for pet in resultados):
+            novo_nome = validar_nome()
+            nova_raca = validar_raca()
+            nova_especie = validar_especie()
+            nova_idade = validar_idade("Nova idade: ")
+            nova_observacoes = validar_texto("Digite suas novas observações: ")
+            cursor.execute("""
+                UPDATE pets
+                SET nome = ?, raca = ?, especie = ?, idade = ?, observacoes = ?
+                WHERE id = ?
+            """, (novo_nome, nova_raca, nova_especie, nova_idade, nova_observacoes, id_pet))
+
+            conexao.commit()
+            conexao.close()
+            return "Pet atualizado com sucesso!"
+        print("ID inválido.")
+        conexao.close()
+        return "Nenhum pet foi atualizado."
 
